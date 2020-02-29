@@ -1,0 +1,37 @@
+<Meta title="Usage/Intro" />
+
+# Get started
+
+Zahir Design System is a reusable component library that helps Zahir contributors build UIs faster. The goal is to make building durable UIs more productive and satisfying.
+
+## Install
+
+Zahir UI components are written in React, and its stories are written in [Component Story Format](https://medium.com/storybookjs/component-story-format-66f4c32366df). It requires Storybook version 5.2-beta and up.
+
+Add Zahir UI to your project.
+
+`npm install --save zahir-ui`
+
+### Font
+
+Add this link in file index.html
+
+`<link href="https://fonts.googleapis.com/css?family=Muli:400,500,600,700,800,900&display=swap" rel="stylesheet" />`
+
+
+### **Use**
+
+Import components you want into your UI
+
+`import { Button } from ‘zahir-ui’;`
+
+and use them like so
+
+```
+  const example = () => (
+    <div>
+      <Button color="primary" onClick={() => 0}>Do something</Button>
+      <Badge onClick={this.clear}>Cool</Badge>
+    </div>
+  )
+```
