@@ -6,7 +6,9 @@
   "scripts": {
     "storybook": "start-storybook",
     "build-storybook": "build-storybook",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "predeploy": "npm run build-storybook",
+    "deploy": "gh-pages -d storybook-static"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
@@ -29,6 +31,7 @@
     "@storybook/addon-docs": "^5.3.14",
     "@storybook/react": "^5.3.13",
     "babel-loader": "^8.0.6",
+    "gh-pages": "^2.2.0",
     "storybook-addon-material-ui": "^0.9.0-alpha.21"
   },
   "author": "Adi Aswara",

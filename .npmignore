@@ -1,3 +1,4 @@
 src
 .storybook
 yarn.lock
+storybook-static
