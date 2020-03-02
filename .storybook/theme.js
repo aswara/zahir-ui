@@ -13,7 +13,7 @@ export default create({
   // appBorderRadius: 4,
 
   // Typography
-  fontBase: '"Muli", sans-serif',
+  fontBase: 'Muli, sans-serif',
   fontCode: 'monospace',
 
   // Text colors

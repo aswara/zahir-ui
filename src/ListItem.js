@@ -15,6 +15,13 @@ export const styles = theme => ({
     paddingRight: 12,
     paddingLeft: 12,
     cursor: 'pointer'
+  },
+  rootSelect: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingRight: 0,
+    paddingLeft: 0,
+    cursor: 'pointer'
   }
 });
 
@@ -24,6 +31,7 @@ const ListItem = (props) => {
   const {
     selected = false,
     isDefault = false,
+    isSelect = false,
 
     title,
     primary,
@@ -48,57 +56,41 @@ const ListItem = (props) => {
     ...other
   } = props;
 
+
   const theme = useTheme();
   const classes = useStyles(theme);
   
   const icon = <CheckCircleIcon color="secondary" style={{ width: 20, height: 20, marginLeft: 12 }} />
+  const isBottomIconSelected = title && primary && rightTitle && !rightPrimary
+  const isTopIconSelected = title && primary && rightTitle && rightPrimary
 
-  let content = <Grid style={{ minHeight: 20 }} container direction="row" justify='space-between' alignItems="center">
-      <Grid item>
+  let content = <div style={{ minHeight: 20, display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <div>
         {title && <Typography style={{ marginBottom: 4, ...titleStyle }} scale="200" color="textPrimary">{title}</Typography>}
         {primary && <Typography style={primaryStyle} variant="body2" color="textPrimary">{primary}</Typography>}
         {secondary && <Typography style={secondaryStyle} variant="body2" color="textSecondary">{secondary}</Typography>}
         {description && <Typography style={descriptionStyle} scale="200" color="textPrimary">{description}</Typography>}
-      </Grid>
-      <Grid style={{ display: 'flex' }} item>
+      </div>
+      <div style={{ display: 'flex', alignItems: isTopIconSelected ? 'start' : 'center' }} item>
         <div>
           {rightTitle && <Typography align="right" style={{ marginBottom: 4, ...rightTitleStyle }} scale="200" color="textPrimary">{rightTitle}</Typography>}
           {rightPrimary && <Typography align="right" style={rightPrimaryStyle} variant="body2" color="textPrimary">{rightPrimary}</Typography>}
           {rightSecondary && <Typography align="right" style={rightSecondaryStyle} variant="body2" color="textSecondary">{rightSecondary}</Typography>}
           {rightDescription && <Typography align="right" style={rightDescriptionStyle} scale="200" color="textPrimary">{rightDescription}</Typography>}
+          {isBottomIconSelected ? selected ? icon : <div style={{ height: 20 }}></div> : null}
         </div>
         <div>
-          {selected ? icon : null}
+          {isBottomIconSelected ? null : selected ? icon : null}
           {isDefault && <Typography style={{ color: '#3da879', fontSize: 12, }}>Default</Typography>}
         </div>
-      </Grid>
-    </Grid>
-
-  if(title && primary && rightTitle) {
-    content = <Grid style={{ minHeight: 20 }} container direction="row" justify='space-between' alignItems="center">
-      <Grid item>
-        {title && <Typography style={{ marginBottom: 4, ...titleStyle }} scale="200" color="textPrimary">{title}</Typography>}
-        {primary && <Typography style={primaryStyle} variant="body2" color="textPrimary">{primary}</Typography>}
-        {secondary && <Typography style={secondaryStyle} variant="body2" color="textSecondary">{secondary}</Typography>}
-        {description && <Typography style={descriptionStyle} scale="200" color="textPrimary">{description}</Typography>}
-      </Grid>
-      <Grid style={{ display: 'flex' }} item>
-        <div>
-          {rightTitle && <Typography align="right" style={{ marginBottom: 4, ...rightTitleStyle }} scale="200" color="textPrimary">{rightTitle}</Typography>}
-          {rightPrimary && <Typography align="right" style={rightPrimaryStyle} variant="body2" color="textPrimary">{rightPrimary}</Typography>}
-          {rightSecondary && <Typography align="right" style={rightSecondaryStyle} variant="body2" color="textSecondary">{rightSecondary}</Typography>}
-          {rightDescription && <Typography align="right" style={rightDescriptionStyle} scale="200" color="textPrimary">{rightDescription}</Typography>}
-          {selected ? icon : null}
-        </div>
-      </Grid>
-    </Grid> 
-  }
+      </div>
+    </div>
 
 
   return (
     <MuiListItem
       disableGutters
-      className={classes.root}
+      className={isSelect ? classes.rootSelect : classes.root}
       {...other}
     >
       {content}
@@ -236,6 +228,10 @@ ListItem.propTypes = {
    * If `true`, will be show label Default.
    */
   isDefault: PropTypes.bool,
+  /**
+   * If `true`, for label component Select padding will be 0.
+   */
+  isSelect: PropTypes.bool,
 };
 
 export default ListItem;

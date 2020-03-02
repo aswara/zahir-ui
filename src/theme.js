@@ -1,14 +1,15 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import colors from './colors';
+import { fontFamily } from './global';
 const defaultTheme = createMuiTheme();
 
-const theme = ({ app, type, primary, secondary }) => {
+const theme = ({ app, mode, primary, secondary, custom = {} }) => {
   const primaryColor = primary || '#027fb3';
   const secondaryColor = secondary || '#20BF6B';
   const secondaryDarkColor = '#1B9D58';
   
-  const primaryText = type === 'dark' ? '#fff' : '#394D6F';
-	const secondaryText = type === 'dark' ? '#fff' : '#0078B0';
+  const primaryText = mode === 'dark' ? '#fff' : '#394D6F';
+	const secondaryText = mode === 'dark' ? '#fff' : '#0078B0';
 	const borderColor = '#C9CED7';
 	const disabledBackground = '#C9CED7';
 
@@ -23,12 +24,12 @@ const theme = ({ app, type, primary, secondary }) => {
 			secondary: {
 				main: secondaryColor,
 				dark: secondaryDarkColor
-			}, // This is just green.A700 as hex.
+			},
 			text: {
 				primary: primaryText,
 				secondary: secondaryText
 			},
-			divider: type === 'dark' ? 'rgba(255, 255, 255, 0.12)' : colors.N20,
+			divider: mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : colors.N20,
 			colors: {
 				...colors
 			},
@@ -36,6 +37,9 @@ const theme = ({ app, type, primary, secondary }) => {
 				disabledBackground,
 				disabled: 'white'
 			}
+		},
+		typography: {
+			fontFamily: fontFamily
 		},
 		overrides: {
 			MuiBackdrop: {
@@ -318,14 +322,6 @@ const theme = ({ app, type, primary, secondary }) => {
 				root: {
 					boxShadow: 'none'
 				},
-				colorDefault: {
-					color: '#000',
-					backgroundColor: '#fff',
-					boxShadow: '0 1px 2px 0 rgba(60, 69, 80, 0.19)'
-				},
-				colorPrimary: {
-					backgroundColor: '#0078B0'
-				}
 			},
 			MuiFab: {
 				secondary: {
@@ -356,12 +352,9 @@ const theme = ({ app, type, primary, secondary }) => {
 					width: 15
 				},
 				containedPrimary: {
-					minWidth: 80,
 					boxShadow: 'unset',
-					// backgroundColor: '#46be8a',
 					'&:hover': {
 						textDecoration: 'none',
-						// backgroundColor: '#3da879',
 						boxShadow: 'none',
 						'@media (hover: none)': {
 							backgroundColor: 'transparent'
@@ -372,12 +365,8 @@ const theme = ({ app, type, primary, secondary }) => {
 					}
 				},
 				containedSecondary: {
-					minWidth: 80,
 					boxShadow: 'unset',
 					color: 'white',
-					fontSize: 14,
-					borderRadius: 4,
-					fontWeight: 600,
 					'&:hover': {
 						textDecoration: 'none',
 						boxShadow: 'none',
@@ -401,7 +390,6 @@ const theme = ({ app, type, primary, secondary }) => {
 				outlinedPrimary: {
 					borderColor: primaryColor,
 					color: primaryColor,
-					fontWeight: 600,
 					'&:hover': {
 						textDecoration: 'none',
 						color: 'white',
@@ -415,7 +403,6 @@ const theme = ({ app, type, primary, secondary }) => {
 					}
 				},
 				outlinedSecondary: {
-					fontWeight: 600,
 					borderColor: secondaryColor,
 					color: secondaryColor,
 					'&:hover': {
@@ -565,41 +552,10 @@ const theme = ({ app, type, primary, secondary }) => {
 				root: {
 					fontSize: 14
 				}
-			}
+			},
 
-			
-		},
-
-		typography: {
-			// fontFamily: 'Roboto',
-			fontFamily: 'Muli, sans-serif',
-		},
-		MuiCheckbox: {
-			root: {
-				color: '#0078b0',
-				'&$checked': {
-					color: '#107aae',
-				}
-			}
-		},
-
-		//menu item
-		MuiMenuItem: {
-			root: {
-				color: 'rgba(0, 0, 0, 0.87) !important',
-				width: 'auto !important',
-				height: '24px !important',
-				overflow: 'hidden !important',
-				fontSize: '14px !important',
-				boxSizing: 'content-box !important',
-				fontWeight: '200 !important',
-				fontFamily: 'Muli !important',
-				lineHeight: '1.5em !important',
-				whiteSpace: 'nowrap !important',
-				paddingLeft: '16px !important',
-				textOverflow: 'ellipsis !important',
-				paddingRight: '16px !important'
-			}
+			// custom style
+			...custom
 		},
 	})
 };

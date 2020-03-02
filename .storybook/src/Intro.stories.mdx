@@ -12,12 +12,52 @@ Add Zahir UI to your project.
 
 `npm install --save zahir-ui`
 
-### Font
+### **Font**
 
 Add this link in file index.html
 
-`<link href="https://fonts.googleapis.com/css?family=Muli:400,500,600,700,800,900&display=swap" rel="stylesheet" />`
+```
+import { global } from ‘zahir-ui’
 
+<link href={global.fontUrl} rel="stylesheet" />
+```
+or
+```
+<link href="https://fonts.googleapis.com/css?family=Muli:400,500,600,700,800,900&display=swap" rel="stylesheet" />
+```
+
+### **Theming**
+
+Customize Zahir UI with your theme. You can change the colors, the typography and much more.
+
+```
+import { ThemeProvider, theme } from ‘zahir-ui’
+
+const myTheme = {
+  // Primary color your app
+  primary: '#006391',
+  // Secondary color your app
+  secondary: '#20BF6B',
+  // Customize your theme base on Material-UI
+  custom: {
+    MuiButton: {
+      root: {
+        border: 4
+      }
+    }
+  }
+}
+
+function App() {
+  return (
+    <ThemeProvider
+      theme={theme(myTheme)}
+    >
+      ...
+    </ThemeProvider>
+  );
+}
+```
 
 ### **Use**
 

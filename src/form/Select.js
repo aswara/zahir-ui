@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select, { components } from 'react-select';
+import Select, { components, getStyles } from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,11 +8,14 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
 
 import Typography from '../Typography';
 import colors from '../colors';
+import global from '../global';
 
-import { withStyles } from '@material-ui/core/styles';
+
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 export const styles = theme => ({
   label: {
@@ -32,6 +35,11 @@ export const styles = theme => ({
     right: 56,
     top: 9
   },
+  iconDropDown: {
+    position: 'absolute',
+    right: 8,
+    top: 9
+  },
   icon: {
     height: 20,
     width: 20
@@ -45,6 +53,10 @@ export const styles = theme => ({
 });
 
 const customStyles = {
+  container: (base) => ({
+    ...base,
+    fontFamily: global.fontFamily
+  }),
   control: (base) => ({
     ...base,
     borderRadius: 4,
@@ -55,7 +67,7 @@ const customStyles = {
     minWidth: 130,
     width: '100%',
     boxShadow: 'none',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   }),
   valueContainer: (base) => ({
     ...base,
@@ -75,10 +87,10 @@ const customStyles = {
     ...base,
     zIndex: 100,
     height: 'auto',
-    maxHeight: 200
+    maxHeight: 200,
+    boxShadow: '0px 10px 40px rgba(0, 0, 0, 0.1)'
   }),
   menuList: (base) => ({
-
     ...base,
     height: 'auto',
     maxHeight: 150
@@ -86,7 +98,7 @@ const customStyles = {
   option: (base) => ({
     ...base,
     fontSize: 14,
-    padding: 0,
+    padding: 12,
     color: '#394D6F',
     ':active': {
       ...base[':active'],
@@ -101,10 +113,47 @@ const customStyles = {
   input: (base) => ({
     ...base,
     maxWidth: 400,
+    color: colors.N70,
+    fontSize: 14,
     overflow: 'hidden'
+  }),
+  multiValue: (base) => ({
+    ...base,
+    borderRadius: 4
+  }),
+  multiValueLabel: (base, { data }) => {
+    const isInput = data.type == 'input';
+    return({
+      ...base,
+      padding: isInput ? 0 : '4px 0 4px 8px',
+      paddingLeft: isInput ? 0 : 6,
+      fontSize: 14,
+      color: colors.N70,
+      backgroundColor: isInput ? 'white' : colors.N20
+    })
+  },
+  multiValueRemove: (base, { data }) => {
+    const isInput = data.type == 'input';
+    return({
+      ...base,
+      display: isInput ? 'none' : 'flex',
+      color: colors.N40,
+      backgroundColor: isInput ? 'white' : colors.N20,
+      ':hover': {
+        backgroundColor: colors.N20,
+        color: colors.N70,
+      },
+    })
+  },
+  clearIndicator: (base) => ({
+    ...base,
+    padding: 0
   })
 }
 
+const useStyles = makeStyles(styles);
+
+// custom components react-select
 const DropdownIndicator = props => {
   return (
     <components.DropdownIndicator {...props}>
@@ -113,6 +162,25 @@ const DropdownIndicator = props => {
   );
 };
 
+const ClearIndicator = props => {
+  const {
+    getStyles,
+    innerProps: { ref, ...restInnerProps },
+  } = props;
+  return (
+    <div
+      {...restInnerProps}
+      ref={ref}
+      style={getStyles('clearIndicator', props)}
+    >
+      <IconButton
+        size="small"
+      >
+        <CloseIcon style={{ height: 20, width: 20 }} />
+      </IconButton>
+    </div>
+  );
+};
 
 const SelectComponent = (props) => {
   const {
@@ -120,7 +188,6 @@ const SelectComponent = (props) => {
     errorText,
     label,
     styles,
-    classes,
     fullWidth,
     onClickLookup,
     onClickEdit,
@@ -130,7 +197,16 @@ const SelectComponent = (props) => {
     ...others
   } = props;
 
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   const borderColor = error ? '#EB3B5A' : '#EDEEF1';
+
+  const components = {
+    DropdownIndicator,
+    LoadingIndicator: null,
+    ClearIndicator
+  }
 
   return (
     <FormControl
@@ -159,10 +235,7 @@ const SelectComponent = (props) => {
               neutral10: borderColor
             }
           })}
-          components={{
-            DropdownIndicator,
-            LoadingIndicator: null,
-          }}
+          components={components}
         />
         :
         <Select
@@ -178,10 +251,7 @@ const SelectComponent = (props) => {
               neutral10: borderColor
             }
           })}
-          components={{
-            DropdownIndicator,
-            LoadingIndicator: null,
-          }}
+          components={components}
         />
       }
       {isShowLookup &&
@@ -315,4 +385,4 @@ SelectComponent.propTypes = {
 
 SelectComponent.muiName = 'Select';
 
-export default withStyles(styles, { name: 'ZuiSelect' })(SelectComponent);
+export default SelectComponent;
