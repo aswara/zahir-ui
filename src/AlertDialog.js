@@ -93,7 +93,7 @@ function AlertDialog(props) {
   );
 }
 
-Button.propTypes = {
+AlertDialog.propTypes = {
   /**
    * The title of the modal.
    */
