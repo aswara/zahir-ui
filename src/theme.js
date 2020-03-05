@@ -1,17 +1,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { darken } from '@material-ui/core/styles/colorManipulator';
 import colors from './colors';
 import { fontFamily } from './global';
 const defaultTheme = createMuiTheme();
 
 const theme = ({ app, mode, primary, secondary, custom = {} }) => {
-  const primaryColor = primary || '#027fb3';
+	const primaryColor = primary || '#027fb3';
   const secondaryColor = secondary || '#20BF6B';
-  const secondaryDarkColor = '#1B9D58';
   
   const primaryText = mode === 'dark' ? '#fff' : '#394D6F';
 	const secondaryText = mode === 'dark' ? '#fff' : '#0078B0';
 	const borderColor = '#C9CED7';
 	const disabledBackground = '#C9CED7';
+	const hoverOpacity = 0.04;
 
 	const placeholder = {
 		color: colors.N40,
@@ -20,10 +21,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 
 	return createMuiTheme({
 		palette: {
-			primary: { main: '#027fb3' }, // Purple and green play nicely together.
+			primary: { 
+				main: primaryColor
+			},
 			secondary: {
 				main: secondaryColor,
-				dark: secondaryDarkColor
 			},
 			text: {
 				primary: primaryText,
@@ -153,6 +155,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						paddingRight: 0
 					},
 					border: 'unset !important'
+				}
+			},
+			MuiFormControl: {
+				root: {
+					zIndex: 'auto'
 				}
 			},
 			MuiFormControlLabel: {
@@ -394,8 +401,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						textDecoration: 'none',
 						color: 'white',
 						borderColor: primaryColor,
+						borderColor: darken(primaryColor, 0.3),
+						backgroundColor: darken(primaryColor, 0.3),
 						'@media (hover: none)': {
-							backgroundColor: 'transparent'
+							borderColor: darken(primaryColor, 0.3),
+							backgroundColor: darken(primaryColor, 0.3),
 						},
 						'&$disabled': {
 							backgroundColor: 'transparent'
@@ -408,11 +418,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 					'&:hover': {
 						textDecoration: 'none',
 						color: '#ffffff',
-						borderColor: secondaryDarkColor,
-						backgroundColor: secondaryDarkColor,
+						borderColor: darken(secondaryColor, 0.3),
+						backgroundColor: darken(secondaryColor, 0.3),
 						'@media (hover: none)': {
-							backgroundColor: secondaryDarkColor,
-							borderColor: secondaryDarkColor,
+							backgroundColor: darken(secondaryColor, 0.3),
+							borderColor: darken(secondaryColor, 0.3),
 						},
 						'&$disabled': {
 							backgroundColor: 'transparent'

@@ -11,6 +11,7 @@ export { default as TextField } from './form/TextField';
 export { default as Select } from './form/Select';
 
 // components
+export { default as AlertDialog } from './AlertDialog';
 export { default as Button } from './Button';
 export { default as SplitButton } from './SplitButton';
 export { default as Typography } from './Typography';

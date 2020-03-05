@@ -139,12 +139,9 @@ export const creatableMulti = () => {
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        console.group('Value Added');
-        console.log(value);
-        console.groupEnd();
-        const newValue = value || []
-        setValue([...newValue, createOption(inputValue)])
-        setInputValue('')
+        const newValue = value || [];
+        setValue([...newValue, createOption(inputValue)]);
+        setInputValue('');
         event.preventDefault();
     }
   };
@@ -157,6 +154,11 @@ export const creatableMulti = () => {
       }
     });
     setValue(newValue);
+  }
+
+  const handleCreate = (val) => {
+    const newValue = value || [];
+    setValue([...newValue, createOption(val)]);
   }
 
   const formatCreateLabel = (val) => {
@@ -174,6 +176,7 @@ export const creatableMulti = () => {
       onInputChange={handleInputChange}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
+      onCreateOption={handleCreate}
       formatCreateLabel={formatCreateLabel}
       placeholder="Input your format"
     />

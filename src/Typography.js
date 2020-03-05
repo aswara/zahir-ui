@@ -72,6 +72,7 @@ const Typography = (props) => {
   return (
     <MuiTypography
       style={{ ...style, color: paletteColor }}
+      component={scale && 'div'}
       className={clsx(
         {
           [classes[scale]]: scale !== 'initial',

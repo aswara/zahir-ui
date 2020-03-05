@@ -67,7 +67,7 @@ const customStyles = {
     minWidth: 130,
     width: '100%',
     boxShadow: 'none',
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   }),
   valueContainer: (base) => ({
     ...base,
