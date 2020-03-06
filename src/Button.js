@@ -30,8 +30,8 @@ const buildColor = (backgroundColor, color, borderColor) => ({
 
 
 export const styles = theme => ({
-  /* Styles applied to the root element if `color="warning"`. */
-  warningContained: {
+  /* Styles applied to the root element if `color="error"`. */
+  errorContained: {
     backgroundColor: '#EB3B5A',
     color: '#fff',
     '&:hover': {
@@ -45,7 +45,7 @@ export const styles = theme => ({
       backgroundColor: theme.palette.action.disabledBackground,
     },
   },
-  warningText: {
+  errorText: {
     backgroundColor: 'transparent',
     color: '#EB3B5A',
     '&:hover': {
@@ -56,7 +56,7 @@ export const styles = theme => ({
       },
     }
   },
-  warningOutlined: {
+  errorOutlined: {
     backgroundColor: 'transparent',
     borderColor: '#EB3B5A',
     color: '#EB3B5A',
@@ -72,8 +72,8 @@ export const styles = theme => ({
       border: `1px solid ${theme.palette.action.disabled}`,
     },
   },
-  /* Styles applied to the root element if `color="info"`. */
-  infoContained: {
+  /* Styles applied to the root element if `color="warning"`. */
+  warningContained: {
     backgroundColor: colors.Y40,
     color: '#fff',
     '&:hover': {
@@ -87,7 +87,7 @@ export const styles = theme => ({
       backgroundColor: theme.palette.action.disabledBackground,
     },
   },
-  infoText: {
+  warningText: {
     backgroundColor: 'transparent',
     color: colors.Y40,
     '&:hover': {
@@ -98,7 +98,7 @@ export const styles = theme => ({
       },
     }
   },
-  infoOutlined: {
+  warningOutlined: {
     backgroundColor: 'transparent',
     borderColor: colors.Y40,
     color: colors.Y40,
@@ -201,7 +201,7 @@ Button.propTypes = {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color: PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary', 'warning', 'info']),
+  color: PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary', 'warning', 'error']),
   /**
    * The component used for the root node.
    * Either a string to use a DOM element or a component.

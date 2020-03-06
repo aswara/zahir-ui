@@ -13,7 +13,7 @@ export default {
 const props = {
   size: ['small', 'medium', 'large'],
   variant: ['text', 'outlined', 'contained'],
-  color: ['default', 'inherit', 'primary', 'secondary', 'warning', 'info']
+  color: ['default', 'inherit', 'primary', 'secondary', 'warning', 'error']
 }
 
 export const variant = () => (
