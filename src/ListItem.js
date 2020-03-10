@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Grid from '@material-ui/core/Grid';
 import Typography from './Typography';
 
 import MuiListItem from '@material-ui/core/ListItem';
@@ -86,7 +85,7 @@ const ListItem = (props) => {
       </div>
     </div>
 
-
+  console.log("============>>", props)
   return (
     <MuiListItem
       disableGutters

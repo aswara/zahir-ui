@@ -57,27 +57,31 @@ const customStyles = {
     ...base,
     fontFamily: global.fontFamily
   }),
-  control: (base) => ({
-    ...base,
-    borderRadius: 4,
-    marginBottom: 0,
-    marginTop: 0,
-    minHeight: 20,
-    height: 44,
-    minWidth: 130,
-    width: '100%',
-    boxShadow: 'none',
-    backgroundColor: 'white',
-  }),
+  control: (base, { isDisabled }) => { 
+    return ({
+      ...base,
+      borderRadius: 4,
+      marginBottom: 0,
+      marginTop: 0,
+      minHeight: 20,
+      height: 44,
+      minWidth: 130,
+      width: '100%',
+      boxShadow: 'none',
+      backgroundColor: isDisabled ? '#EDEEF1' : 'white',
+  })},
   valueContainer: (base) => ({
     ...base,
     padding: 0,
     fontSize: 14,
-    marginLeft: 8
+    marginLeft: 8,
+    flexWrap: 'nowrap'
   }),
   placeholder: (base) => ({
     ...base,
-    color: colors.N40
+    color: colors.N40,
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis'
   }),
   indicatorSeparator: (base) => ({
     ...base,
@@ -107,7 +111,7 @@ const customStyles = {
   }),
   singleValue: (base) => ({
     ...base,
-    paddingRight: 15,
+    paddingRight: 0,
     textTransform: 'capitalize'
   }),
   input: (base) => ({

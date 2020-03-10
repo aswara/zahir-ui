@@ -1,18 +1,17 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import colors from './colors';
 import { fontFamily } from './global';
 const defaultTheme = createMuiTheme();
 
 const theme = ({ app, mode, primary, secondary, custom = {} }) => {
-	const primaryColor = primary || '#027fb3';
+  const primaryColor = primary || '#027fb3';
   const secondaryColor = secondary || '#20BF6B';
+  const secondaryDarkColor = '#1B9D58';
   
   const primaryText = mode === 'dark' ? '#fff' : '#394D6F';
 	const secondaryText = mode === 'dark' ? '#fff' : '#0078B0';
 	const borderColor = '#C9CED7';
 	const disabledBackground = '#C9CED7';
-	const hoverOpacity = 0.04;
 
 	const placeholder = {
 		color: colors.N40,
@@ -21,11 +20,10 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 
 	return createMuiTheme({
 		palette: {
-			primary: { 
-				main: primaryColor
-			},
+			primary: { main: '#027fb3' }, // Purple and green play nicely together.
 			secondary: {
 				main: secondaryColor,
+				dark: secondaryDarkColor
 			},
 			text: {
 				primary: primaryText,
@@ -139,7 +137,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				head: {
 					fontSize: 12,
 					color: '#3c4550',
-					borderBottom: 'solid 1px #d8dee2 !important',
+					// borderBottom: 'solid 1px #d8dee2 !important',
 					letterSpacing: '0.5px',
 					fontWeight: 500,
 					textTransform: 'uppercase'
@@ -148,7 +146,9 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 					fontSize: 14,
 					color: '#394D6F',
 					letterSpacing: '0.5px',
-					fontWeight: 300
+					fontWeight: 300,
+					paddingTop: '20px !important',
+					paddingBottom: '20px !important'
 				},
 				root: {
 					"&:last-child": {
@@ -223,19 +223,21 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				}
 			},
 			MuiFormHelperText: {
+				root: {
+					fontSize: 10
+				},
 				error: {
 					color: '#c45353 !important',
-					fontWeight: 100
 				}
 			},
 			MuiFormLabel: {
 				root: {
 					fontSize: 14,
-					color: primaryText
+					color: primaryText,
+					"&$error": {
+						"color": "#253238 !important"
+					}
 				},
-				error: {
-					color: '#253238 !important'
-				}
 			},
 			MuiInputLabel: {
 				formControl: {
@@ -252,6 +254,13 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 
 			// Text Field
 			MuiInput: {
+				"root": {
+					"&$error": {
+						"&:after": {
+							"borderBottomColor": "#c45353 !important"
+						}
+					}
+				},
 				underline: {
 					'&:before': {
 						borderBottom: '1px solid #e4eaec'
@@ -275,11 +284,6 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						borderBottom: '1px solid #e4eaec !important'
 					},
 				},
-				error: {
-					'&:after': {
-						borderBottomColor: '#c45353 !important'
-					}
-				},
 				input: {
 					marginBottom: 8,
 					fontWeight: 300,
@@ -300,9 +304,9 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 			},
 			MuiOutlinedInput: {
 				root: {
-					background: 'white',
+					backgroundColor: 'white',
 					borderRadius: 4,
-					height: 44,
+					minHeight: 44,
 					'&:hover $notchedOutline': {
 						borderColor: '#EDEEF1',
 					},
@@ -310,9 +314,21 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						borderColor: '#EDEEF1',
 						borderWidth: 1
 					},
+					'&$disabled $notchedOutline': {
+						borderColor: '#EDEEF1',
+					},
+					'&$disabled': {
+						backgroundColor: '#EDEEF1',
+					},
+				},
+				multiline: {
+					padding: '12.5px'
 				},
 				input: {
 					padding: '12px 12px',
+				},
+				inputMultiline: {
+					padding: '0px !important'
 				},
 				adornedEnd: {
 					paddingRight: 0
@@ -322,7 +338,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				},
 				notchedOutline: {
 					borderColor: '#EDEEF1',
-				},
+				}
 			},
 
 			MuiAppBar: {
@@ -338,11 +354,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 			MuiIconButton: {
 				root: {
 					padding: 10,
-					color: '#A5AEBD'
+					color: '#A5AEBD',
+					"&$disabled": {
+						"color": "#A5AEBD"
+					}
 				},
-				disabled: {
-					color: '#A5AEBD'
-				}
 			},
 			MuiButton: {
 				root: {
@@ -401,11 +417,8 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						textDecoration: 'none',
 						color: 'white',
 						borderColor: primaryColor,
-						borderColor: darken(primaryColor, 0.3),
-						backgroundColor: darken(primaryColor, 0.3),
 						'@media (hover: none)': {
-							borderColor: darken(primaryColor, 0.3),
-							backgroundColor: darken(primaryColor, 0.3),
+							backgroundColor: 'transparent'
 						},
 						'&$disabled': {
 							backgroundColor: 'transparent'
@@ -418,11 +431,11 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 					'&:hover': {
 						textDecoration: 'none',
 						color: '#ffffff',
-						borderColor: darken(secondaryColor, 0.3),
-						backgroundColor: darken(secondaryColor, 0.3),
+						borderColor: secondaryDarkColor,
+						backgroundColor: secondaryDarkColor,
 						'@media (hover: none)': {
-							backgroundColor: darken(secondaryColor, 0.3),
-							borderColor: darken(secondaryColor, 0.3),
+							backgroundColor: secondaryDarkColor,
+							borderColor: secondaryDarkColor,
 						},
 						'&$disabled': {
 							backgroundColor: 'transparent'
@@ -442,9 +455,6 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				outlined: {
 					border: '1px solid #EDEEF1',
 					padding: '5px 15px'
-				},
-				text: {
-					color: disabledBackground
 				},
 				fab: {
 					position: 'absolute',

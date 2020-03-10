@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	FormControl,
@@ -14,7 +14,7 @@ import ImportExport from '@material-ui/icons/ImportExport';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NumberFormat from 'react-number-format';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '../Typography';
 
 const borderColor = '#EDEEF1';
@@ -25,7 +25,22 @@ export const styles = theme => ({
 		color: theme.palette.colors.n60,
 		whiteSpace: 'nowrap'
 	},
+	forInfo: {
+		background: 'transparent',
+	},
+	outlinedInputForInfo: {
+		borderColor: 'transparent !important',
+		'&:hover': {
+			borderColor: 'transparent !important',
+		},
+		'&$focused': {
+			borderColor: 'transparent !important',
+			borderWidth: 1
+		}
+	}
 });
+
+const useStyles = makeStyles(styles);
 
 function NumberFormatCustom(props) {
 	const { 
@@ -179,27 +194,25 @@ SerialNumberFormat.propTypes = {
 	left: PropTypes.bool
 };
 
-class InputTextField extends Component {
-	constructor(props) {
-		super(props);
-		this.value = '';
-		this.state = {
-			type: props.type || 'text',
-			display: "none"
+
+
+function InputTextField(props) {
+
+		const theme = useTheme();
+		const classes = useStyles(theme);
+	
+		const [ state, setState ] = useState({ type: props.type || 'texy' });
+		
+		const togglePassword = () => {
+			if (state.type === 'password') {
+				setState({ type: 'text' });
+			} else {
+				setState({ type: 'password' });
+			}
 		};
-	}
+		
 
-	togglePassword = () => {
-		if (this.state.type === 'password') {
-			this.setState({ type: 'text' });
-		} else {
-			this.setState({ type: 'password' });
-		}
-	};
-
-	render() {
 		const {
-			classes,
 			value,
 			id,
 			disabled,
@@ -232,9 +245,16 @@ class InputTextField extends Component {
 			rows,
 			rowsMax,
 			forDetail,
+			forInfo,
 			endAdornment,
 			...others
-		} = this.props;
+		} = props;
+
+		const inputStyle = {
+			textAlign: right ? 'right' : 'left',
+			padding: forDetail ? '0px 12px 24px 1px' : '12.5px',
+			color: forDetail ? '#394D6F' : 'inherit',
+		}
 
 		return (
 			<FormControl
@@ -255,13 +275,18 @@ class InputTextField extends Component {
 					value={value}
 					id={id}
 					disabled={disabled}
-					readOnly={readOnly}
+					readOnly={readOnly || forDetail}
 					autoFocus={autoFocus}
-					type={type}
+					type={state.type}
 					onChange={onChange}
 					placeholder={placeholder}
 					onFocus={onFocus}
 					onBlur={onBlur}
+					classes={{
+						root: forInfo ? classes.forInfo : '',
+						notchedOutline: forInfo || forDetail ? 
+						classes.outlinedInputForInfo : ''
+					}}
 					inputProps={{
 						decimalSeparator,
 						thousandSeparator,
@@ -271,13 +296,9 @@ class InputTextField extends Component {
 						percentage,
 						minZero,
 						left,
-						style: {
-							textAlign: right ? 'right' : 'left',
-							padding: forDetail ? '0px 12px 24px 1px' : '12.5px',
-							color: forDetail ? '#394D6F' : 'inherit'
-						}
+						style: inputStyle
 					}}
-					error={error}
+					error={touched && error}
 					inputComponent={formatValue === 'price' ? NumberFormatCustom : (formatValue === 'card_number' ? CardNumberFormat : (formatValue === 'card_exp' ? CardExpFormat : (formatValue === 'card_cvn' ? CardCvnFormat : (formatValue === 'serial_number' ? SerialNumberFormat : 'input'))))}
 					startAdornment={
 						!!icon ? (
@@ -294,7 +315,7 @@ class InputTextField extends Component {
 								{icon}
 							</Icon>
 						) : prefixLabel ? (
-							<IconButton style={{  marginBottom: -3, width: 45, height: 45, marginTop: -10 }} onClick={this.props.onClickPrefix || null}>
+							<IconButton style={{  marginBottom: -3, width: 45, height: 45, marginTop: -10 }} onClick={props.onClickPrefix || null}>
 								<Typography inline noWrap style={{ width: 70, position: 'absolute' }} variant="body1">
 									{prefixLabel}
 								</Typography>
@@ -303,7 +324,7 @@ class InputTextField extends Component {
 							<InputAdornment position="start">
 								<IconButton
 									aria-label="Toggle Button Switch Rate"
-									onClick={() => this.props.onClickPrefix(value)}
+									onClick={() => props.onClickPrefix(value)}
 								>
 									<ImportExport fontSize="small" />
 								</IconButton>
@@ -314,8 +335,8 @@ class InputTextField extends Component {
 						endAdornment ? <InputAdornment position="end">{endAdornment}</InputAdornment>  :
 						type === 'password' ? (
 							<InputAdornment position="end">
-								<IconButton aria-label="Toggle password  visibility" onClick={this.togglePassword}>
-									{this.state.type !== 'password' ? (
+								<IconButton aria-label="Toggle password  visibility" onClick={togglePassword}>
+									{state.type !== 'password' ? (
 										<Visibility fontSize="small" />
 									) : (
 											<VisibilityOff fontSize="small" />
@@ -324,16 +345,16 @@ class InputTextField extends Component {
 							</InputAdornment>
 						) : sufix ? (
 							<InputAdornment position="end">
-								{this.props.typeSufixIcon === 'material' ? (
-									<IconButton onClick={this.props.onClickSufix || null}>
+								{props.typeSufixIcon === 'material' ? (
+									<IconButton onClick={props.onClickSufix || null}>
 										<Icon>{sufix}</Icon>
 									</IconButton>
-								) : (this.props.typeSufixIcon === 'label' ? (
-									<IconButton style={{ marginBottom: 10, width: 45 }} onClick={this.props.onClickSufix || null}>
+								) : (props.typeSufixIcon === 'label' ? (
+									<IconButton style={{ width: 45, marginLeft: -20 }} onClick={props.onClickSufix || null}>
 										<Typography variant="body1">{sufix}</Typography>
 									</IconButton>
-								) : (this.props.typeSufixIcon === 'local' ? (
-									<IconButton style={{ marginBottom: 10, width: 45 }} onClick={this.props.onClickSufix || null}>
+								) : (props.typeSufixIcon === 'local' ? (
+									<IconButton style={{ width: 45, marginLeft: -20 }} onClick={props.onClickSufix || null}>
 										<img alt="icon" src={sufix} />
 									</IconButton>
 								) : <FontAwesomeIcon icon={sufix} size="xs" color="rgba(0, 0, 0, 0.54)" />))}
@@ -348,7 +369,7 @@ class InputTextField extends Component {
 						) : sufixLabel ? (
 							<Typography
 								inline
-								style={{ marginBottom: 10, width: 70, textAlign: 'right' }}
+								style={{ width: 70, textAlign: 'right' }}
 								variant="body1"
 							>
 								{sufixLabel}
@@ -363,7 +384,8 @@ class InputTextField extends Component {
 					<FormHelperText
 						style={{
 							position: 'absolute',
-							top: 43
+							top: 66,
+							whiteSpace: 'nowrap'
 						}}
 						error={touched && !!error}>
 						{name === 'email' ? "please login with this email" : error}
@@ -372,20 +394,15 @@ class InputTextField extends Component {
 			</FormControl>
 		);
 	}
-}
 
-export default withStyles(styles, { name: 'ZuiTextField' })(InputTextField);
+export default InputTextField;
 
 InputTextField.propTypes = {
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	type: PropTypes.string,
 	disabled: PropTypes.bool,
-	readonly: PropTypes.bool,
-	meta: PropTypes.object.isRequired,
-	formPhone: PropTypes.bool,
-	noLabel: PropTypes.bool,
-	setValue: PropTypes.string,
+	readOnly: PropTypes.bool,
 	autoFocus: PropTypes.bool,
 	italic: PropTypes.bool,
 	left: PropTypes.bool,
@@ -393,9 +410,8 @@ InputTextField.propTypes = {
 	right: PropTypes.bool,
 	prefix: PropTypes.string,
 	onHandleKeyDown: PropTypes.func,
-	noMargin: PropTypes.bool,
-	loginClass: PropTypes.bool,
 	minZero: PropTypes.bool,
+	onChange: PropTypes.func,
 	/**
 		* Mixed: single character string or boolean true (true is default to ,)
 		*/
@@ -412,7 +428,11 @@ InputTextField.propTypes = {
 	/**
    * If `true`, will be detail style
    */
-  forDetail: PropTypes.bool,
+	forDetail: PropTypes.bool,
+	/**
+   * If `true`, will be info style
+   */
+  forInfo: PropTypes.bool,
 };
 
 InputTextField.defaultProps = {
@@ -420,15 +440,11 @@ InputTextField.defaultProps = {
 	placeholder: '',
 	type: 'text',
 	disabled: false,
-	readonly: false,
-	formPhone: false,
-	noLabel: false,
-	setValue: '',
+	readOnly: false,
 	autoFocus: false,
 	italic: false,
 	left: false,
 	maxLength: undefined,
-	loginClass: false,
 	right: false,
 	prefix: '',
 	onHandleKeyDown: null,
