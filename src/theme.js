@@ -1,12 +1,15 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, darken } from '@material-ui/core/styles';
 import colors from './colors';
 import { fontFamily } from './global';
 const defaultTheme = createMuiTheme();
 
 const theme = ({ app, mode, primary, secondary, custom = {} }) => {
   const primaryColor = primary || '#027fb3';
-  const secondaryColor = secondary || '#20BF6B';
-  const secondaryDarkColor = '#1B9D58';
+	const secondaryColor = secondary || '#20BF6B';
+	
+	const primaryDarkColor = darken(primaryColor, 0.2);
+  const secondaryDarkColor = darken(secondaryColor, 0.2);
+
   
   const primaryText = mode === 'dark' ? '#fff' : '#394D6F';
 	const secondaryText = mode === 'dark' ? '#fff' : '#0078B0';
@@ -20,7 +23,10 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 
 	return createMuiTheme({
 		palette: {
-			primary: { main: '#027fb3' }, // Purple and green play nicely together.
+			primary: { 
+				main: primaryColor,
+				dark: primaryDarkColor
+			},
 			secondary: {
 				main: secondaryColor,
 				dark: secondaryDarkColor
@@ -360,6 +366,8 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 					}
 				},
 			},
+
+			// button
 			MuiButton: {
 				root: {
 					borderRadius: 4,
@@ -412,13 +420,15 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				},
 				outlinedPrimary: {
 					borderColor: primaryColor,
-					color: primaryColor,
+					color: primaryDarkColor,
 					'&:hover': {
 						textDecoration: 'none',
 						color: 'white',
 						borderColor: primaryColor,
+						backgroundColor: primaryDarkColor,
 						'@media (hover: none)': {
-							backgroundColor: 'transparent'
+							backgroundColor: 'transparent',
+							backgroundColor: primaryDarkColor,
 						},
 						'&$disabled': {
 							backgroundColor: 'transparent'
