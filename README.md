@@ -13,5 +13,5 @@ npm install --save zahir-ui
 ### Requirement
 
 ```bash
-npm install --save @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @material-ui/core @material-ui/icons react-number-format react-select
+npm install --save @fortawesome/fontawesome-svg-core@1.2.27 @fortawesome/react-fontawesome@0.1.8 @material-ui/core@4.9.1 @material-ui/icons@4.9.1 react-number-format@4.4.1 react-select@2.4.2
 ```
