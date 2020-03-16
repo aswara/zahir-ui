@@ -1,7 +1,6 @@
-import { createMuiTheme, darken } from '@material-ui/core/styles';
+import { darken, createMuiTheme } from '@material-ui/core/styles';
 import colors from './colors';
 import { fontFamily } from './global';
-const defaultTheme = createMuiTheme();
 
 const theme = ({ app, mode, primary, secondary, custom = {} }) => {
   const primaryColor = primary || '#027fb3';
@@ -73,7 +72,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 			},
 			MuiStepConnector: {
 				alternativeLabel: {
-					[defaultTheme.breakpoints.only("xs")]: {
+					['@media (max-width: 600px)']: {
 						top: 12,
 						// left: 'calc(-50% + 20px)',
 						right: 'calc(50% + 20px)',
@@ -81,7 +80,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						width: 73,
 						left: -36,
 					},
-					[defaultTheme.breakpoints.up("md")]: {
+					['@media (min-width: 960px)']: {
 						top: 12,
 						// left: 'calc(-50% + 20px)',
 						right: 'calc(50% + 20px)',
@@ -89,7 +88,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 						width: 174,
 						left: -87,
 					},
-					[defaultTheme.breakpoints.only("xl")]: {
+					['@media (max-width: 1920px)']: {
 						top: 12,
 						// left: 'calc(-50% + 20px)',
 						right: 'calc(50% + 20px)',
@@ -298,6 +297,9 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				}
 			},
 			MuiInputBase: {
+				root: {
+					fontWeight: 600
+				},
 				input: {
 					padding: '1px 0px 5px',
 					fontSize: 14,
@@ -384,6 +386,7 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				},
 				containedPrimary: {
 					boxShadow: 'unset',
+					color: 'white',
 					'&:hover': {
 						textDecoration: 'none',
 						boxShadow: 'none',

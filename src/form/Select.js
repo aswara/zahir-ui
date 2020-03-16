@@ -65,7 +65,7 @@ const customStyles = {
       marginTop: 0,
       minHeight: 20,
       height: 44,
-      minWidth: 130,
+      minWidth: 60,
       width: '100%',
       boxShadow: 'none',
       backgroundColor: isDisabled ? '#EDEEF1' : 'white',
@@ -75,6 +75,7 @@ const customStyles = {
     padding: 0,
     fontSize: 14,
     marginLeft: 8,
+    marginRight: -10,
     flexWrap: 'nowrap'
   }),
   placeholder: (base) => ({
@@ -103,15 +104,16 @@ const customStyles = {
     ...base,
     fontSize: 14,
     padding: 12,
-    color: '#394D6F',
+    color: colors.N70,
     ':active': {
       ...base[':active'],
-      color: '#394D6F'
+      color: colors.N70
     },
   }),
   singleValue: (base) => ({
     ...base,
-    paddingRight: 0,
+    color: colors.N70,
+    fontWeight: 600,
     textTransform: 'capitalize'
   }),
   input: (base) => ({

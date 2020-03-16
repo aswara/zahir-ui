@@ -26,7 +26,7 @@ export const styles = theme => ({
 		whiteSpace: 'nowrap'
 	},
 	forInfo: {
-		background: 'transparent',
+		backgroundColor: 'transparent !important',
 	},
 	outlinedInputForInfo: {
 		borderColor: 'transparent !important',
@@ -36,6 +36,10 @@ export const styles = theme => ({
 		'&$focused': {
 			borderColor: 'transparent !important',
 			borderWidth: 1
+		},
+		'&$disabled': {
+			borderColor: 'transparent !important',
+			borderWidth: 1
 		}
 	}
 });
@@ -43,7 +47,7 @@ export const styles = theme => ({
 const useStyles = makeStyles(styles);
 
 function NumberFormatCustom(props) {
-	const { 
+	const {
 		percentage,
 		minZero,
 		inputRef,
@@ -52,8 +56,8 @@ function NumberFormatCustom(props) {
 		left,
 		style,
 		decimalSeparator,
-		thousandSeparator,	
-		...other 
+		thousandSeparator,
+		...other
 	} = props;
 
 	return (
@@ -197,142 +201,145 @@ SerialNumberFormat.propTypes = {
 
 
 function InputTextField(props) {
+	const {
+		value,
+		id,
+		disabled,
+		readOnly,
+		autoFocus,
+		type,
+		onChange,
+		placeholder,
+		onFocus,
+		onBlur,
+		decimalSeparator,
+		thousandSeparator,
+		error,
+		warning,
+		errorMessage,
+		errorMargin,
+		formatValue,
+		icon,
+		onClickIcon,
+		prefix,
+		sufix,
+		label,
+		maxLength,
+		percentage,
+		minZero,
+		left,
+		right,
+		prefixLabel,
+		sufixLabel,
+		touched,
+		name,
+		multiline,
+		rows,
+		rowsMax,
+		forDetail,
+		forInfo,
+		endAdornment,
+		...others
+	} = props;
 
-		const theme = useTheme();
-		const classes = useStyles(theme);
-	
-		const [ state, setState ] = useState({ type: props.type || 'texy' });
-		
-		const togglePassword = () => {
-			if (state.type === 'password') {
-				setState({ type: 'text' });
-			} else {
-				setState({ type: 'password' });
-			}
-		};
-		
+	const theme = useTheme();
+	const classes = useStyles(theme);
 
-		const {
-			value,
-			id,
-			disabled,
-			readOnly,
-			autoFocus,
-			type,
-			onChange,
-			placeholder,
-			onFocus,
-			onBlur,
-			decimalSeparator,
-			thousandSeparator,
-			error,
-			formatValue,
-			icon,
-			onClickIcon,
-			prefix,
-			sufix,
-			label,
-			maxLength,
-			percentage,
-			minZero,
-			left,
-			right,
-			prefixLabel,
-			sufixLabel,
-			touched,
-			name,
-			multiline,
-			rows,
-			rowsMax,
-			forDetail,
-			forInfo,
-			endAdornment,
-			...others
-		} = props;
+	const [ state, setState ] = useState({ type: props.type });
 
-		const inputStyle = {
-			textAlign: right ? 'right' : 'left',
-			padding: forDetail ? '0px 12px 24px 1px' : '12.5px',
-			color: forDetail ? '#394D6F' : 'inherit',
+	const togglePassword = () => {
+		if (state.type === 'password') {
+			setState({ type: 'text' });
+		} else {
+			setState({ type: 'password' });
 		}
+	};
 
-		return (
-			<FormControl
+
+	const inputStyle = {
+		textAlign: right ? 'right' : 'left',
+		padding: forDetail ? '0px 12px 24px 1px' : '12.5px',
+		color: forDetail ? '#394D6F' : 'inherit',
+	}
+
+	return (
+		<FormControl
+			disabled={disabled}
+			fullWidth
+			className={classes.root}
+		>
+			{label ? (
+				<Typography
+					className={classes.label}
+					scale="300"
+					color="N60"
+				>
+					{label}
+				</Typography>
+			) : null}
+			<OutlinedInput
+				{...others}
+				value={value}
+				id={id}
 				disabled={disabled}
-				fullWidth
-				className={classes.root}
-			>
-				{label ? (
-					<Typography
-						className={classes.label}
-						scale="300"
-					>
-						{label}
-					</Typography>
-				) : null}
-				<OutlinedInput
-					{...others}
-					value={value}
-					id={id}
-					disabled={disabled}
-					readOnly={readOnly || forDetail}
-					autoFocus={autoFocus}
-					type={state.type}
-					onChange={onChange}
-					placeholder={placeholder}
-					onFocus={onFocus}
-					onBlur={onBlur}
-					classes={{
-						root: forInfo ? classes.forInfo : '',
-						notchedOutline: forInfo || forDetail ? 
+				readOnly={readOnly || forDetail}
+				autoFocus={autoFocus}
+				type={state.type}
+				onChange={onChange}
+				placeholder={placeholder}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				classes={{
+					root: forInfo || forDetail ? classes.forInfo : '',
+					notchedOutline: forInfo || forDetail ?
 						classes.outlinedInputForInfo : ''
-					}}
-					inputProps={{
-						decimalSeparator,
-						thousandSeparator,
-						maxLength,
-						minLength: 5,
-						prefix,
-						percentage,
-						minZero,
-						left,
-						style: inputStyle
-					}}
-					error={touched && error}
-					inputComponent={formatValue === 'price' ? NumberFormatCustom : (formatValue === 'card_number' ? CardNumberFormat : (formatValue === 'card_exp' ? CardExpFormat : (formatValue === 'card_cvn' ? CardCvnFormat : (formatValue === 'serial_number' ? SerialNumberFormat : 'input'))))}
-					startAdornment={
-						!!icon ? (
-							<Icon
-								onClick={onClickIcon || null}
-								style={
-									!onClickIcon ? (
-										{ marginRight: 10, color: 'rgba(0, 0, 0, 0.54)', marginTop: -10 }
-									) : (
-											{ marginRight: 10, color: '#46be8a', marginTop: -10, cursor: 'pointer' }
-										)
-								}
+				}}
+				inputProps={{
+					decimalSeparator,
+					thousandSeparator,
+					maxLength,
+					minLength: 5,
+					prefix,
+					percentage,
+					minZero,
+					left,
+					style: inputStyle
+				}}
+				error={touched && error}
+				inputComponent={formatValue === 'price' ? NumberFormatCustom : (formatValue === 'card_number' ? CardNumberFormat : (formatValue === 'card_exp' ? CardExpFormat : (formatValue === 'card_cvn' ? CardCvnFormat : (formatValue === 'serial_number' ? SerialNumberFormat : 'input'))))}
+				startAdornment={
+					!!icon ? (
+						<Icon
+							onClick={onClickIcon || null}
+							style={
+								!onClickIcon ? (
+									{ marginRight: 10, color: 'rgba(0, 0, 0, 0.54)', marginTop: -10 }
+								) : (
+										{ marginRight: 10, color: '#46be8a', marginTop: -10, cursor: 'pointer' }
+									)
+							}
+						>
+							{icon}
+						</Icon>
+					) : prefixLabel ? (
+						<IconButton style={{ marginBottom: -3, width: 45, height: 45, marginTop: -10 }} onClick={props.onClickPrefix || null}>
+							<Typography inline noWrap style={{ width: 70, position: 'absolute' }} variant="body1">
+								{prefixLabel}
+							</Typography>
+						</IconButton>
+					) : type === 'rate' ? (
+						<InputAdornment position="start">
+							<IconButton
+								aria-label="Toggle Button Switch Rate"
+								onClick={() => props.onClickPrefix(value)}
 							>
-								{icon}
-							</Icon>
-						) : prefixLabel ? (
-							<IconButton style={{  marginBottom: -3, width: 45, height: 45, marginTop: -10 }} onClick={props.onClickPrefix || null}>
-								<Typography inline noWrap style={{ width: 70, position: 'absolute' }} variant="body1">
-									{prefixLabel}
-								</Typography>
+								<ImportExport fontSize="small" />
 							</IconButton>
-						) : type === 'rate' ? (
-							<InputAdornment position="start">
-								<IconButton
-									aria-label="Toggle Button Switch Rate"
-									onClick={() => props.onClickPrefix(value)}
-								>
-									<ImportExport fontSize="small" />
-								</IconButton>
-							</InputAdornment>
-						) : null
-					}
-					endAdornment={
-						endAdornment ? <InputAdornment position="end">{endAdornment}</InputAdornment>  :
+						</InputAdornment>
+					) : null
+				}
+				endAdornment={
+					endAdornment ? <InputAdornment position="end">{endAdornment}</InputAdornment> :
 						type === 'password' ? (
 							<InputAdornment position="end">
 								<IconButton aria-label="Toggle password  visibility" onClick={togglePassword}>
@@ -350,11 +357,11 @@ function InputTextField(props) {
 										<Icon>{sufix}</Icon>
 									</IconButton>
 								) : (props.typeSufixIcon === 'label' ? (
-									<IconButton style={{ width: 45, marginLeft: -20 }} onClick={props.onClickSufix || null}>
-										<Typography variant="body1">{sufix}</Typography>
+									<IconButton style={{ width: 45, marginLeft: -20, marginTop: forDetail ? -40 : 0 }} onClick={props.onClickSufix || null}>
+										<Typography variant="body1" color="textPrimary">{sufix}</Typography>
 									</IconButton>
 								) : (props.typeSufixIcon === 'local' ? (
-									<IconButton style={{ width: 45, marginLeft: -20 }} onClick={props.onClickSufix || null}>
+									<IconButton style={{ width: 45, marginLeft: -20, marginTop: forDetail ? -40 : 0 }} onClick={props.onClickSufix || null}>
 										<img alt="icon" src={sufix} />
 									</IconButton>
 								) : <FontAwesomeIcon icon={sufix} size="xs" color="rgba(0, 0, 0, 0.54)" />))}
@@ -375,25 +382,25 @@ function InputTextField(props) {
 								{sufixLabel}
 							</Typography>
 						) : null
-					}
-					multiline={multiline}
-					rows={rows}
-					rowsMax={rowsMax}
-				/>
-				{touched && !!error ?
-					<FormHelperText
-						style={{
-							position: 'absolute',
-							top: 66,
-							whiteSpace: 'nowrap'
-						}}
-						error={touched && !!error}>
-						{name === 'email' ? "please login with this email" : error}
-					</FormHelperText>
-					: null}
-			</FormControl>
-		);
-	}
+				}
+				multiline={multiline}
+				rows={rows}
+				rowsMax={rowsMax}
+			/>
+			{ errorMessage || (touched && (!!error || warning)) ?
+				<FormHelperText
+					style={{
+						position: 'absolute',
+						bottom: -18,
+						whiteSpace: 'nowrap'
+					}}
+					error={touched && (!!error || warning)}>
+					{ name === 'email' ? "Please login with this email" : error || errorMessage }
+				</FormHelperText>
+				: null}
+		</FormControl>
+	);
+}
 
 export default InputTextField;
 
@@ -432,7 +439,7 @@ InputTextField.propTypes = {
 	/**
    * If `true`, will be info style
    */
-  forInfo: PropTypes.bool,
+	forInfo: PropTypes.bool,
 };
 
 InputTextField.defaultProps = {
