@@ -587,13 +587,6 @@ const theme = ({ app, mode, primary, secondary, custom = {} }) => {
 				}
 			},
 
-			// tooltips
-			MuiTooltip: {
-				tooltip: {
-					backgroundColor: colors.N70
-				}
-			},
-
 			// custom style
 			...custom
 		},

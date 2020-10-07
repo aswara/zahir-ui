@@ -154,6 +154,10 @@ const customStyles = {
   clearIndicator: (base) => ({
     ...base,
     padding: 0
+  }),
+  menuPortal: base => ({ 
+    ...base,
+    zIndex: 9999 
   })
 }
 

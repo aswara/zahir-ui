@@ -85,7 +85,6 @@ const ListItem = (props) => {
       </div>
     </div>
 
-  console.log("============>>", props)
   return (
     <MuiListItem
       disableGutters

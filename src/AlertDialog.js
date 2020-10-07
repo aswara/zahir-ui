@@ -29,7 +29,8 @@ function AlertDialog(props) {
     textOk,
     textClose,
     icon,
-    content
+    content,
+    color
   } = props;
 
 
@@ -37,12 +38,12 @@ function AlertDialog(props) {
   const classes = useStyles(theme);
 
 
-  let color = "primary";
+  let buttonColor = color;
   let defaultIcon = null;
 
   switch (variant) {
     case 'warning':
-      color = 'warning'
+      buttonColor = 'warning'
       defaultIcon = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9999 13C12.9999 13.552 12.5519 14 11.9999 14C11.4479 14 10.9999 13.552 10.9999 13V9C10.9999 8.448 11.4479 8 11.9999 8C12.5519 8 12.9999 8.448 12.9999 9V13ZM11.9999 17C11.4479 17 10.9999 16.552 10.9999 16C10.9999 15.448 11.4479 15 11.9999 15C12.5519 15 12.9999 15.448 12.9999 16C12.9999 16.552 12.5519 17 11.9999 17ZM22.5609 16.303L14.8889 3.584C14.2899 2.592 13.2099 2 11.9999 2C10.7899 2 9.70994 2.592 9.11094 3.584L1.43894 16.303C0.870936 17.246 0.853936 18.38 1.39394 19.336C1.97294 20.363 3.09794 21 4.32794 21H19.6719C20.9019 21 22.0269 20.363 22.6059 19.336C23.1459 18.38 23.1289 17.246 22.5609 16.303Z" fill="#394D6F" />
         <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="1" y="2" width="22" height="19">
@@ -55,7 +56,7 @@ function AlertDialog(props) {
       break;
 
     case 'delete':
-      color = 'error'
+      buttonColor = 'error'
       defaultIcon = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8.46 11.88L9.87 10.47L12 12.59L14.12 10.47L15.53 11.88L13.41 14L15.53 16.12L14.12 17.53L12 15.41L9.88 17.53L8.47 16.12L10.59 14L8.46 11.88ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#EB3B5A" />
       </svg>
@@ -113,7 +114,7 @@ function AlertDialog(props) {
         <DialogActions>
           <Button
             onClick={onClose}
-            color={color}
+            color={buttonColor}
             variant="outlined"
           >
             {textClose}
@@ -133,6 +134,10 @@ function AlertDialog(props) {
 }
 
 AlertDialog.propTypes = {
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary', 'warning', 'error']),
   /**
    * The icon of the modal.
    */
@@ -173,7 +178,8 @@ AlertDialog.propTypes = {
 
 AlertDialog.defaultProps = {
   textOk: 'Ok',
-  textClose: 'Close'
+  textClose: 'Close',
+  color: 'primary'
 }
 
 export default AlertDialog;

@@ -23,7 +23,8 @@ export const styles = theme => ({
 	label: {
 		marginBottom: 8,
 		color: theme.palette.colors.n60,
-		whiteSpace: 'nowrap'
+		whiteSpace: 'nowrap',
+		textAlign: 'left'
 	},
 	forInfo: {
 		backgroundColor: 'transparent !important',
@@ -239,9 +240,10 @@ function InputTextField(props) {
 		forDetail,
 		forInfo,
 		endAdornment,
+		noWarning,
 		...others
 	} = props;
-
+	
 	const theme = useTheme();
 	const classes = useStyles(theme);
 
@@ -364,7 +366,7 @@ function InputTextField(props) {
 									<IconButton style={{ width: 45, marginLeft: -20, marginTop: forDetail ? -40 : 0 }} onClick={props.onClickSufix || null}>
 										<img alt="icon" src={sufix} />
 									</IconButton>
-								) : <FontAwesomeIcon icon={sufix} size="xs" color="rgba(0, 0, 0, 0.54)" />))}
+								) : <FontAwesomeIcon style={{ marginLeft: -12, marginRight: 12 }} icon={sufix} size="xs" color="rgba(0, 0, 0, 0.54)" />))}
 							</InputAdornment>
 						) : touched && !!error && error === 'Please fill out this field.' ? (
 							<InputAdornment position="end">
@@ -387,7 +389,7 @@ function InputTextField(props) {
 				rows={rows}
 				rowsMax={rowsMax}
 			/>
-			{ errorMessage || (touched && (!!error || warning)) ?
+			{ (errorMessage || (touched && (!!error || warning))) && !noWarning ?
 				<FormHelperText
 					style={{
 						position: 'absolute',
